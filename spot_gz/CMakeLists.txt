@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Following directive defines the project name.
-project(spot_gazebo)
+project(spot_gz)
 
 
 # Following directives find required packages and load their configuration.
@@ -12,7 +12,7 @@ find_package(spot_description REQUIRED)
 
 
 # Following 'install' directive ensures that the 'worlds' subfolder
-# will be copied to the 'share/spot_gazebo/worlds'
+# will be copied to the 'share/spot_gz/worlds'
 # subfolder of the installation directory.
 install(
   DIRECTORY worlds/

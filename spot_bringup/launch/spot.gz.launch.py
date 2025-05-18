@@ -17,7 +17,7 @@ def generate_launch_description():
     world_file = LaunchConfiguration('world_file', default='simple_tunnel.sdf')
     world_file_arg = DeclareLaunchArgument(
         'world_file',
-        default_value='simple_tunnel.sdf',
+        default_value='empty.sdf',
         description='Name of the world file to load'
     )
 
@@ -29,22 +29,22 @@ def generate_launch_description():
 
     # Setup to launch the simulator and Gazebo world
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
-    pkg_spot_gazebo = get_package_share_directory('spot_gazebo')
+    pkg_spot_gz = get_package_share_directory('spot_gz')
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
             launch_arguments={
                 'gz_args': [
                     PathJoinSubstitution([
-                        pkg_spot_gazebo, 
+                        pkg_spot_gz, 
                         'worlds',
                         world_file
-                    ]),
-                    ' --render-engine ogre2'  # doesn't seem to improve simulation speed
-                    # ' -v 4'   # show debug messages for gazebo
+                    ])                  
                 ],
             }.items(),
     )
+
+    
 
     # Bridge ROS topics and Gazebo messages for establishing communication
     pkg_spot_bringup = get_package_share_directory('spot_bringup')
