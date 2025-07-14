@@ -44,8 +44,6 @@ def generate_launch_description():
             }.items(),
     )
 
-    
-
     # Bridge ROS topics and Gazebo messages for establishing communication
     pkg_spot_bringup = get_package_share_directory('spot_bringup')
     bridge = Node(
@@ -75,6 +73,15 @@ def generate_launch_description():
         remappings=[
             ('/joint_states', '/spot/joint_states')
         ]
+    )
+
+    # ADD THIS: Static transform publisher to connect world and robot frames
+    static_transform_publisher = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='world_to_base_link',
+        arguments=['0', '0', '0', '0', '0', '0', 'world', 'base_link'],
+        parameters=[{'use_sim_time': True}]
     )
 
     # Controller
@@ -123,6 +130,7 @@ def generate_launch_description():
         gz_sim,
         bridge,
         robot_state_publisher,
+        static_transform_publisher,  # ADD THIS LINE
         quadruped_controller_node,
         rviz
     ])
